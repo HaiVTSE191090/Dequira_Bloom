@@ -1,3 +1,4 @@
+using API.Middleware;
 using Application;
 using Application.Common.Interfaces;
 using Infrastructure;
@@ -39,6 +40,8 @@ namespace API
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
 
 
             var app = builder.Build();
@@ -72,6 +75,8 @@ namespace API
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
+            app.UseExceptionHandler();
+
 
             app.Run();
         }
